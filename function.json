@@ -1,0 +1,155 @@
+{
+  "type": "vector.function",
+  "description": "Ranks startup ideas by relative execution feasibility, producing a probability distribution where higher scores indicate more executable ideas. Evaluates technical feasibility, resource requirements, regulatory complexity, and execution risk profile across all ideas comparatively. Output is a vector of scores (one per item) summing to approximately 1.",
+  "input_schema": {
+    "type": "object",
+    "description": "A set of startup ideas to compare for relative execution feasibility",
+    "properties": {
+      "items": {
+        "type": "array",
+        "description": "Array of startup ideas to rank by execution feasibility. Each item can be a text pitch, image, video, audio, or a composite array combining multiple modalities. Minimum 2 items required for comparison.",
+        "minItems": 2,
+        "items": {
+          "anyOf": [
+            {
+              "type": "string",
+              "description": "A text pitch describing a startup idea"
+            },
+            {
+              "type": "image",
+              "description": "A visual pitch (slide, mockup, diagram)"
+            },
+            {
+              "type": "video",
+              "description": "A video pitch"
+            },
+            {
+              "type": "audio",
+              "description": "An audio pitch"
+            },
+            {
+              "type": "array",
+              "description": "A composite pitch combining multiple modalities",
+              "minItems": 1,
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "image"
+                  },
+                  {
+                    "type": "video"
+                  },
+                  {
+                    "type": "audio"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "required": [
+      "items"
+    ]
+  },
+  "tasks": [
+    {
+      "type": "vector.completion",
+      "messages": [
+        {
+          "role": "system",
+          "content": [
+            {
+              "type": "text",
+              "text": "You are an expert startup analyst evaluating EXECUTION FEASIBILITY. Compare the startup ideas presented and determine which has the highest overall execution feasibility.\n\nEvaluate across four dimensions:\n\n1. TECHNICAL FEASIBILITY\n- Technology maturity: Does it use established technology or require unproven breakthroughs?\n- Integration complexity: How many systems must work together seamlessly?\n- Technical talent availability: Can generalist engineers build this, or are rare specialists required?\n- MVP buildability: Can a working prototype be built quickly with current tools?\n\n2. RESOURCE REQUIREMENTS\n- Capital intensity: Can it be bootstrapped, or does it require massive funding?\n- Time to market: Can it launch in months, or does it require years of development?\n- External dependencies: Does it require partnerships, regulatory relationships, or platform access?\n- Talent requirements: Does it need a large specialized team or can a small team execute?\n\n3. REGULATORY AND LEGAL COMPLEXITY\n- Regulatory burden: Is it unregulated (standard software) or heavily regulated (healthcare, finance, aviation)?\n- Jurisdictional complexity: Can it operate in one jurisdiction or must it comply across many?\n- Legal defensibility: Are there patent risks, liability exposure, or platform constraints?\n- Approval timelines: Does it require lengthy approval processes (FDA, FAA) or can it launch immediately?\n\n4. EXECUTION RISK PROFILE\n- Path clarity: Are there established playbooks, or is success criteria itself unclear?\n- Risk interdependence: Can challenges be tackled independently, or do risks cascade?\n- Known vs unknown risks: Is this a well-understood domain or uncharted territory?\n- Failure modes: Can the company pivot if things go wrong, or are there catastrophic failure modes?\n\nYou must select which idea is MOST feasible overall - meaning it has the clearest, most achievable path to a functioning business."
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": {
+            "$starlark": "[{'type': 'text', 'text': 'Compare these startup ideas for OVERALL EXECUTION FEASIBILITY and select which is most feasible:'}] + [part for i in range(len(input['items'])) for part in ([{'type': 'text', 'text': '\\n\\nIDEA ' + repr(i+1) + ': ' + input['items'][i]}] if type(input['items'][i]) == type('') else ([{'type': 'text', 'text': '\\n\\nIDEA ' + repr(i+1) + ':'}] + [({'type': 'text', 'text': ' ' + p} if type(p) == type('') else p) for p in (input['items'][i] if type(input['items'][i]) == type([]) else [input['items'][i]])]))]"
+          }
+        }
+      ],
+      "responses": [
+        [
+          {
+            "type": "text",
+            "text": "IDEA 1 is most feasible overall"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "IDEA 2 is most feasible overall"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "IDEA 3 is most feasible overall"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "IDEA 4 is most feasible overall"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "IDEA 5 is most feasible overall"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "IDEA 6 is most feasible overall"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "IDEA 7 is most feasible overall"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "IDEA 8 is most feasible overall"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "IDEA 9 is most feasible overall"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "IDEA 10 is most feasible overall"
+          }
+        ]
+      ],
+      "output": {
+        "$starlark": "(lambda scores, n: [s / sum(scores[:n]) for s in scores[:n]])(output['scores'], len(input['items']))"
+      }
+    }
+  ],
+  "output_length": {
+    "$starlark": "len(input['items'])"
+  },
+  "input_split": {
+    "$starlark": "[{'items': [item]} for item in input['items']]"
+  },
+  "input_merge": {
+    "$starlark": "{'items': [sub['items'][0] for sub in input]}"
+  }
+}
