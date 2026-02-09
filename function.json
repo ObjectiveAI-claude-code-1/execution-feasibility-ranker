@@ -1,35 +1,28 @@
 {
   "type": "vector.function",
-  "description": "Rank startup ideas by execution feasibility. Evaluates technical feasibility, resource requirements, regulatory complexity, and execution risk. Outputs a probability distribution (scores summing to ~1) with higher scores indicating greater feasibility.",
+  "description": "Ranks startup ideas by relative execution feasibility, producing a probability distribution where higher values indicate more feasible paths to market. Evaluates technical feasibility (technology maturity, integration complexity, talent availability), resource requirements (capital intensity, time to market, team size), regulatory complexity (industry regulations, geographic variation, compliance costs), and execution risk profile (go-to-market clarity, market validation, competitive dynamics). Accepts ideas as text, image, audio, video, or composite arrays combining multiple formats.",
   "input_schema": {
     "type": "object",
-    "description": "A set of startup ideas to compare for relative execution feasibility",
     "properties": {
       "items": {
         "type": "array",
-        "description": "Array of startup ideas to rank by execution feasibility. Each item can be a text pitch, image, video, audio, or a composite array combining multiple modalities.",
         "minItems": 2,
         "items": {
           "anyOf": [
             {
-              "type": "string",
-              "description": "A text pitch describing a startup idea"
+              "type": "string"
             },
             {
-              "type": "image",
-              "description": "A visual pitch (slide, mockup, diagram)"
+              "type": "image"
             },
             {
-              "type": "audio",
-              "description": "An audio pitch"
+              "type": "audio"
             },
             {
-              "type": "video",
-              "description": "A video pitch"
+              "type": "video"
             },
             {
               "type": "array",
-              "description": "A composite pitch combining multiple modalities",
               "minItems": 1,
               "items": {
                 "anyOf": [

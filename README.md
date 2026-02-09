@@ -1,84 +1,75 @@
 # Execution Feasibility Ranker
 
-A vector function that evaluates and ranks startup ideas by their execution feasibility, producing a probability distribution across all input items.
+A vector function that ranks startup ideas by relative execution feasibility, producing a probability distribution where higher values indicate more feasible paths from idea to market.
 
 ## Overview
 
-The Execution Feasibility Ranker compares multiple startup ideas simultaneously and determines their relative feasibility of being successfully built and brought to market. Unlike absolute scoring systems, this ranker provides comparative rankings—distributing a fixed probability mass across all ideas to answer: "If I had to bet on which of these could actually be executed, how would I allocate my confidence?"
+The Execution Feasibility Ranker evaluates multiple startup ideas simultaneously and produces a comparative ranking. Rather than scoring each idea in isolation, it assesses them relative to each other—recognizing that feasibility is contextual. An idea requiring $10M in capital might be "infeasible" compared to a bootstrappable SaaS, but "highly feasible" compared to a moon-landing venture.
 
 ## Input
 
-The function accepts an object with an `items` array containing 2 or more startup ideas. Each item can be:
+The function accepts an array of 2 or more startup ideas. Each idea can be:
 
-- **Text pitch**: A string describing the startup idea
-- **Image pitch**: A visual representation (slide, mockup, diagram)
-- **Audio pitch**: A spoken presentation or voice memo
-- **Video pitch**: A recorded demo or presentation
-- **Composite pitch**: An array combining multiple modalities
-
-### Example Input
+- **Text**: A string describing the startup pitch
+- **Image**: A visual pitch (mockup, diagram, prototype photo)
+- **Audio**: An audio pitch or demonstration
+- **Video**: A video pitch or demo
+- **Composite**: An array combining multiple formats for a single idea
 
 ```json
 {
   "items": [
-    "An AI-powered personal stylist app that uses computer vision",
+    "A mobile app for habit tracking with streaks and reminders",
     "A biotech platform using CRISPR for personalized cancer treatment",
-    "A simple mobile app for daily habit tracking with reminders"
+    ["An AI writing assistant", {"type": "image_url", "image_url": {"url": "..."}}]
   ]
 }
 ```
 
 ## Output
 
-A vector of scores (one per input item) that sum to approximately 1. Higher scores indicate greater execution feasibility relative to the other items in the set.
-
-### Example Output
+A vector of probabilities summing to approximately 1, with one score per input idea. Higher scores indicate higher relative execution feasibility.
 
 ```json
-[0.22, 0.18, 0.60]
+[0.55, 0.15, 0.30]
 ```
-
-In this example, the habit tracking app receives the highest feasibility score, while the CRISPR biotech platform receives the lowest.
 
 ## Evaluation Criteria
 
-The ranker evaluates each idea across four dimensions:
+The ranker evaluates ideas across four dimensions:
 
 ### 1. Technical Feasibility
-- **Technology maturity**: Does it use established technology or require unproven breakthroughs?
-- **Integration complexity**: How many systems must work together?
-- **Talent availability**: Can generalist engineers build this, or are rare specialists required?
-- **MVP buildability**: Can a working prototype be built quickly with current tools?
+- **Technology maturity**: Established technology vs. unproven breakthroughs
+- **Integration complexity**: How many systems must work together
+- **Talent availability**: Generalists vs. rare specialists required
+- **MVP buildability**: Can a prototype be built quickly with current tools
 
 ### 2. Resource Requirements
-- **Capital intensity**: Can it be bootstrapped, or does it require massive funding?
-- **Time to market**: Can it launch in months, or does it require years of development?
-- **External dependencies**: Does it require partnerships, regulatory relationships, or platform access?
-- **Talent requirements**: Does it need a large specialized team or can a small team execute?
+- **Capital intensity**: Bootstrappable vs. massive funding required
+- **Time to market**: Months vs. years of development
+- **External dependencies**: Partnerships, regulatory relationships, platform access
+- **Team requirements**: Small generalist team vs. large specialized organization
 
 ### 3. Regulatory Complexity
-- **Regulatory burden**: Is it unregulated (standard software) or heavily regulated (healthcare, finance)?
-- **Jurisdictional complexity**: Can it operate in one jurisdiction or must it comply across many?
-- **Legal defensibility**: Are there patent risks, liability exposure, or platform constraints?
-- **Approval timelines**: Does it require lengthy approval processes (FDA, FAA)?
+- **Regulatory burden**: Unregulated software vs. heavily regulated industries
+- **Jurisdictional complexity**: Single vs. multi-jurisdiction compliance
+- **Legal defensibility**: Patent risks, liability exposure, platform constraints
+- **Approval timelines**: Immediate launch vs. lengthy approval processes
 
 ### 4. Execution Risk Profile
-- **Path clarity**: Are there established playbooks, or is success criteria unclear?
-- **Risk interdependence**: Can challenges be tackled independently, or do risks cascade?
-- **Known vs unknown risks**: Is this a well-understood domain or uncharted territory?
-- **Failure modes**: Can the company pivot if things go wrong?
+- **Path clarity**: Established playbooks vs. unclear success criteria
+- **Risk interdependence**: Independent challenges vs. cascading risks
+- **Domain knowledge**: Well-understood vs. uncharted territory
+- **Failure modes**: Pivot-friendly vs. catastrophic failure potential
 
 ## Use Cases
 
-- **Startup portfolio evaluation**: Compare investment opportunities by execution risk
-- **Idea prioritization**: Determine which product concept to pursue first
-- **Competitive analysis**: Assess relative feasibility of different market approaches
-- **Resource allocation**: Distribute team attention across multiple initiatives
-- **Pitch deck review**: Provide structured feedback on startup proposals
+- **Founders**: Compare multiple startup directions before committing
+- **Accelerators**: Evaluate applicant ideas for realistic market paths
+- **Investors**: Screen deals for execution risk during due diligence
+- **Corporate Innovation**: Allocate innovation budgets to feasible projects
+- **Educators**: Teach entrepreneurship with concrete comparisons
 
-## Notes
+## Philosophy
 
-- **Feasibility ≠ Desirability**: A terrible idea can be highly feasible. This ranker assesses whether something CAN be built, not whether it SHOULD be.
-- **Feasibility ≠ Profitability**: Many feasible businesses fail to make money. The ranker assesses execution possibility, not market success.
-- **Relative ranking**: Scores are comparative within each input set. The same idea may score differently when compared against different alternatives.
-- **Presentation-agnostic**: The ranker evaluates the underlying idea, not the quality of its presentation.
+This function embodies pragmatism over purity. It doesn't ask "is this a good idea?" or "will this succeed?" It asks only "which of these ideas presents the clearest path to execution?" The probability distribution output communicates both rankings and confidence—tight distributions suggest clear hierarchies, while spread distributions suggest near-equivalence.

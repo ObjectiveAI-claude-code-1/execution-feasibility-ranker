@@ -4,27 +4,41 @@ A vector function that evaluates all startup ideas simultaneously for relative f
 
 ## Input Schema
 
-The input is an object with an `items` field containing an array of startup ideas. Each item uses anyOf to accept:
-- A string (text pitch)
-- An image (type: image)
-- An audio (type: audio)
-- A video (type: video)
-- An array of the above (composite pitch)
+The input is an object with a single required field called `items` containing an array of startup ideas.
 
-Example input schema structure:
+Each item in the array can be:
+- A string (plain text pitch)
+- An image (schema type: image)
+- An audio clip (schema type: audio)
+- A video (schema type: video)
+- A composite array containing any mix of the above
+
+Use this exact input schema:
 ```json
 {
   "type": "object",
   "properties": {
     "items": {
       "type": "array",
+      "minItems": 2,
       "items": {
         "anyOf": [
           {"type": "string"},
           {"type": "image"},
           {"type": "audio"},
           {"type": "video"},
-          {"type": "array", "items": {"anyOf": [{"type": "string"}, {"type": "image"}, {"type": "audio"}, {"type": "video"}]}}
+          {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "anyOf": [
+                {"type": "string"},
+                {"type": "image"},
+                {"type": "audio"},
+                {"type": "video"}
+              ]
+            }
+          }
         ]
       }
     }
@@ -39,11 +53,11 @@ A vector of scores (one per item) summing to ~1.
 
 ## Output Length
 
-Dynamic - equals len(input['items']).
+Dynamic - equals the number of items: `{"$starlark": "len(input['items'])"}`
 
 ## Evaluation Criteria
 
-1. **Technical Feasibility**: Existing tech vs breakthroughs needed?
+1. **Technical Feasibility**: Existing tech vs breakthroughs?
 2. **Resource Requirements**: Bootstrappable vs capital-intensive?
 3. **Regulatory Complexity**: Legal hurdles?
 4. **Execution Risk Profile**: Direct path to market?
