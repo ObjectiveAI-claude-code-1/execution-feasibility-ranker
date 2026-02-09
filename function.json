@@ -1,6 +1,6 @@
 {
   "type": "vector.function",
-  "description": "Ranks startup ideas by relative execution feasibility, producing a probability distribution where higher scores indicate more executable ideas. Evaluates technical feasibility, resource requirements, regulatory complexity, and execution risk profile across all ideas comparatively. Output is a vector of scores (one per item) summing to approximately 1.",
+  "description": "Ranks startup ideas by relative execution feasibility. Evaluates technical feasibility, resource requirements, regulatory complexity, and execution risk. Outputs a probability distribution (scores summing to ~1) where higher scores indicate more executable ideas.",
   "input_schema": {
     "type": "object",
     "description": "A set of startup ideas to compare for relative execution feasibility",
