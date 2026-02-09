@@ -1,40 +1,49 @@
 # Execution Feasibility Ranker
 
-A vector function that evaluates all startup ideas simultaneously to assess their relative feasibility and executability.
+A vector function that evaluates all startup ideas simultaneously for relative feasibility.
 
 ## Input Schema
 
-The input is an object with an `items` field containing an array of startup ideas to compare. Each item can be:
+The input is an object with an `items` field containing an array of startup ideas. Each item uses anyOf to accept:
 - A string (text pitch)
-- An image, audio, or video (multimodal pitch)
+- An image (type: image)
+- An audio (type: audio)
+- A video (type: video)
 - An array of the above (composite pitch)
 
+Example input schema structure:
 ```json
 {
-  "items": [
-    "An AI-powered personal stylist.",
-    "A biotech platform using CRISPR for cancer treatment.",
-    "A simple mobile app for habit tracking."
-  ]
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {"type": "string"},
+          {"type": "image"},
+          {"type": "audio"},
+          {"type": "video"},
+          {"type": "array", "items": {"anyOf": [{"type": "string"}, {"type": "image"}, {"type": "audio"}, {"type": "video"}]}}
+        ]
+      }
+    }
+  },
+  "required": ["items"]
 }
 ```
 
 ## Output
 
-A vector of scores (one per item) summing to ~1, representing relative execution feasibility. Higher scores indicate more executable ideas.
+A vector of scores (one per item) summing to ~1.
 
 ## Output Length
 
-Dynamic - equals the number of items in the input array.
+Dynamic - equals len(input['items']).
 
 ## Evaluation Criteria
 
-This is comparative - feasibility is relative to alternatives:
-
-1. **Technical Feasibility**: Which ideas require existing technology vs. unproven breakthroughs? Rank by technical ambition.
-
-2. **Resource Requirements**: Compare capital requirements (bootstrappable vs. capital-intensive), talent needs, time-to-market.
-
-3. **Regulatory and Legal Complexity**: Compare regulatory hurdles. Which ideas are safer from a legal perspective?
-
-4. **Execution Risk Profile**: Rank by directness of path to market. Compare known vs. unknown risks and failure modes.
+1. **Technical Feasibility**: Existing tech vs breakthroughs needed?
+2. **Resource Requirements**: Bootstrappable vs capital-intensive?
+3. **Regulatory Complexity**: Legal hurdles?
+4. **Execution Risk Profile**: Direct path to market?

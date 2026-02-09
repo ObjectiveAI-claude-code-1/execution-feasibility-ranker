@@ -1,275 +1,203 @@
-# Execution Feasibility Ranker: A Philosophy of Pragmatic Startup Evaluation
+# Execution Feasibility Ranker: A Philosophy of Practical Possibility
 
 ## Introduction
 
-The Execution Feasibility Ranker is a vector function designed to assess the relative executability of startup ideas when presented as a comparative set. Unlike absolute scoring functions that evaluate items in isolation, this function operates in the comparative domain—producing a probability distribution that reflects how feasible each idea is *relative to the alternatives presented*. The output is a vector of scores summing to approximately 1, where higher values indicate ideas that are more readily executable given current constraints of technology, resources, regulation, and risk.
+The Execution Feasibility Ranker is a vector function designed to evaluate a collection of startup ideas simultaneously, producing a relative ranking of how feasible each is to actually execute. Unlike functions that judge an idea's merit in isolation, this ranker operates comparatively—distributing a probability mass across all submitted ideas to answer the question: "If I had to bet on which of these could actually be built and brought to market, how would I allocate my confidence?"
 
-This essay explores the philosophical foundations, evaluation dimensions, and nuanced considerations that must guide the function's development. It serves as the intellectual bedrock upon which the function's implementation will rest.
+This is fundamentally a question about the gap between vision and reality. Every startup begins as an idea, but the graveyard of failed ventures is filled with brilliant concepts that could not survive contact with the physical, economic, and human constraints of the real world. The Execution Feasibility Ranker exists to illuminate this gap before resources are committed.
 
 ## The Nature of Execution Feasibility
 
-### What Execution Feasibility Is
+### What Feasibility Is Not
 
-Execution feasibility is the measure of how realistically a startup idea can be transformed from concept to functioning business. It is not a measure of the idea's merit, potential impact, or ultimate success—those are separate dimensions entirely. A biotech company pursuing immortality may have transformative potential, but its execution feasibility is low because the path from conception to reality is fraught with unknowns. Conversely, a simple habit-tracking app may lack revolutionary potential but scores high on execution feasibility because the path to market is well-trodden.
+Before exploring what execution feasibility means, we must clarify what it is not:
 
-Execution feasibility asks: **"Given what we know today about technology, markets, regulations, and human capabilities, how navigable is the path from here to a functioning product or service?"**
+**Feasibility is not desirability.** A terrible idea can be highly feasible. A vending machine that dispenses lukewarm water would be trivially executable but pointless. The Execution Feasibility Ranker deliberately ignores whether an idea *should* exist—only whether it *could* exist.
 
-### What Execution Feasibility Is Not
+**Feasibility is not profitability.** Many feasible businesses fail to make money. A charity that operates at a loss is perfectly feasible; it simply requires a different funding model. The ranker assesses whether you can build and deliver the thing, not whether it will generate returns.
 
-It is crucial to distinguish execution feasibility from related but distinct concepts:
+**Feasibility is not certainty.** Even the most feasible idea carries risk. What we seek is relative feasibility—which ideas face fewer obstacles, shorter paths, and more established foundations than others.
 
-- **Not market potential**: A feasible idea may serve a tiny market; an infeasible idea may address massive need.
-- **Not investment attractiveness**: VCs often fund low-feasibility moonshots because the asymmetric returns justify the risk.
-- **Not founder-team fit**: We evaluate the idea in the abstract, not whether a particular team could execute it.
-- **Not timing**: An idea may be feasible now but was impossible five years ago. We evaluate present-day feasibility.
-- **Not desirability**: Something can be easy to build but unwanted, or wanted but impossible to build.
+### What Feasibility Is
 
-### The Comparative Frame
+Execution feasibility is a composite judgment about the practical realizability of an idea given current constraints. It asks:
 
-This function operates comparatively rather than absolutely. Given three startup ideas—an AI stylist, a CRISPR cancer platform, and a habit-tracking app—we don't ask "how feasible is each?" in isolation. We ask: "If a rational actor had to choose which to attempt based purely on execution difficulty, how should they weight these options?"
+- Can this be built with technology that exists today?
+- Can the required resources be assembled by a reasonable team?
+- Can legal and regulatory barriers be navigated?
+- Is there a plausible path from concept to customer?
 
-The comparative frame serves several purposes:
+The ranker synthesizes these dimensions into a unified comparative score, acknowledging that feasibility is not a single quantity but an emergent property of multiple interacting factors.
 
-1. **Relative ranking is more robust than absolute scoring**: Humans and AI alike struggle to assign meaningful absolute probabilities to complex scenarios, but we're quite good at relative comparisons.
+## The Four Pillars of Feasibility
 
-2. **The sum-to-one constraint creates meaningful trade-offs**: By forcing scores to sum to ~1, we acknowledge that feasibility is a relative resource. The presence of easier alternatives makes harder options relatively less attractive.
+### I. Technical Feasibility: The Physics of Possibility
 
-3. **Context sensitivity**: The "feasibility" of launching a space tourism company feels different when compared to social apps versus when compared to asteroid mining ventures.
+Technical feasibility asks whether the laws of physics, the current state of engineering, and available tooling permit the idea to exist. This dimension spans a vast spectrum:
 
-## The Four Pillars of Execution Feasibility
+**At the high-feasibility end:** Ideas that recombine existing, proven technologies in new configurations. A mobile app that connects existing services. A physical product made from established manufacturing processes. Software built on mature frameworks and APIs. These ideas stand on solid technical ground—the question is not "can it be done?" but "will someone do it?"
 
-### Pillar I: Technical Feasibility
+**In the middle:** Ideas requiring modest technical advances or novel combinations that push boundaries without breaking them. A drone delivery service faces unsolved optimization problems but no physical impossibilities. A new battery chemistry operates within known physics but requires engineering breakthroughs. These ideas are feasible but carry technical risk.
 
-Technical feasibility examines the gap between current technological capabilities and what the startup requires. This is perhaps the most fundamental dimension—if the necessary technology doesn't exist and can't be reliably developed, all other considerations are moot.
+**At the low-feasibility end:** Ideas that require scientific breakthroughs not yet achieved. Room-temperature superconductors at ambient pressure. General artificial intelligence. Faster-than-light communication. These are not impossible in principle, but they cannot be planned for or resourced as startup ventures—they are research programs, not execution projects.
 
-#### Established vs. Emerging vs. Speculative Technology
+The technical feasibility assessment must be unsentimental. It must distinguish between "hard but possible" and "requires a miracle." It must recognize that software ideas generally score higher than hardware ideas (bits are more malleable than atoms), that digital platforms score higher than physical infrastructure, and that incremental improvements score higher than revolutionary inventions.
 
-Ideas exist on a spectrum of technical maturity:
+**Key evaluation signals:**
+- Does this require new science, or just new engineering?
+- Are the core technologies in production use elsewhere?
+- What is the technology readiness level (TRL) of the critical components?
+- How many simultaneous technical challenges must be solved?
+- Are there existence proofs—similar things that have been built?
 
-- **Established technology**: The startup uses well-understood, battle-tested technologies. A mobile app using standard iOS/Android frameworks. An e-commerce platform on proven infrastructure. The technical risk is primarily execution quality, not fundamental capability.
+### II. Resource Requirements: The Economics of Assembly
 
-- **Emerging technology**: The startup builds on technologies that exist but are still maturing. Current AI/ML applications, blockchain implementations, AR/VR experiences. The technology works in principle but may have reliability, scalability, or capability gaps.
+Every startup requires resources: capital, talent, time, equipment, real estate, materials. Resource feasibility asks whether these can realistically be assembled:
 
-- **Speculative technology**: The startup requires breakthroughs that don't yet exist. General artificial intelligence. Room-temperature superconductors. Practical fusion power. These are research projects masquerading as startups.
+**Bootstrappable ventures** require minimal capital—perhaps a laptop, internet access, and sweat equity. A freelance consultancy. A SaaS tool built by a solo developer. A content creation business. These ideas can begin on a shoestring, validating as they grow.
 
-#### Integration Complexity
+**Moderate-capital ventures** require significant but obtainable investment—seed rounds, small business loans, or the savings of a committed founder. A small restaurant. A boutique e-commerce brand. A local service business. These require real capital but not institutional backing.
 
-Even with established technologies, integration complexity matters. A startup requiring seamless coordination between hardware manufacturing, AI processing, global logistics, and regulatory compliance faces compounded technical risk even if each component is well-understood.
+**Capital-intensive ventures** require substantial institutional investment before generating revenue. A semiconductor fab. A pharmaceutical development program. A satellite constellation. These ideas are not infeasible, but they are infeasible *for most teams*—they require access to capital markets, sophisticated investors, and extended runways.
 
-#### Technical Talent Availability
+Resource feasibility must also consider talent availability. Some ideas require rare expertise—deep learning researchers, nuclear engineers, experienced biotech executives. Others can be executed by generalists with determination and good judgment. The ranker must weight ideas by the realistic assemblability of required teams.
 
-Some technologies require rare expertise. If your startup needs one of the world's 200 experts in a particular domain, technical feasibility drops—not because the technology doesn't exist, but because access to it is constrained.
+**Key evaluation signals:**
+- What is the minimum viable capital requirement?
+- Can initial versions be built with founder labor?
+- Are required skills available in the talent market?
+- Does the idea require proprietary inputs (rare materials, licensed IP)?
+- What is the time-to-revenue, and can the team survive until then?
 
-#### Signals of Technical Feasibility
+### III. Regulatory Complexity: The Legal Landscape
 
-- **Has anyone built something similar?** Prior art is the strongest signal.
-- **Are the component technologies mature?** Novel combinations of mature tech are far more feasible than novel technology itself.
-- **Is the core technical challenge well-defined?** Vague technical requirements suggest underestimation of difficulty.
-- **Can an MVP be built with current tools?** The ability to prototype quickly is a strong feasibility signal.
+Regulation is the institutionalized expression of society's caution. Some domains are lightly regulated; others are heavily constrained by law, requiring permits, licenses, certifications, and ongoing compliance. Regulatory feasibility asks whether these barriers can be navigated:
 
-### Pillar II: Resource Requirements
+**Low regulatory complexity:** Software applications, most digital services, many consumer products. These operate in permissive environments where the default is freedom and constraints are minimal.
 
-Even technically feasible ideas may be practically infeasible due to resource constraints. This dimension evaluates the capital, talent, time, and infrastructure needed to reach viability.
+**Moderate regulatory complexity:** Food service, alcohol sales, financial services (depending on jurisdiction and product type), transportation, and employment. These require licenses and ongoing compliance but operate within well-understood frameworks.
 
-#### Capital Intensity
+**High regulatory complexity:** Healthcare, pharmaceuticals, aviation, nuclear energy, genetic engineering, firearms, and controlled substances. These domains are heavily regulated, with lengthy approval processes, mandatory testing, and significant penalties for non-compliance.
 
-Startups vary enormously in capital requirements:
+**Extreme regulatory complexity:** Ideas that operate in legal gray zones or require changes to existing law. Cryptocurrency exchanges (in some jurisdictions). Autonomous vehicles on public roads. Human genetic modification. These ideas face not just compliance costs but existential legal risk.
 
-- **Bootstrappable**: Can reach profitability on founder effort and modest personal investment. Many software businesses, consultancies, content platforms.
+The ranker must recognize that regulatory complexity varies by geography. An idea that is impossible in one jurisdiction may be feasible in another. It must also recognize that regulations change—but for execution feasibility, we assess the current landscape, not hypothetical futures.
 
-- **Seed-fundable**: Requires external capital but can demonstrate progress with $500K–$2M. Most SaaS, consumer apps, marketplace MVPs.
+**Key evaluation signals:**
+- What permits, licenses, or certifications are required?
+- Are there clear regulatory pathways, or is the legal status ambiguous?
+- What is the typical approval timeline in this domain?
+- What are the penalties for non-compliance?
+- Does the idea require lobbying or legal reform?
 
-- **Venture-scale**: Requires significant funding ($5M–$50M) before proving the model. Hardware companies, biotech early stages, enterprise sales motions.
+### IV. Execution Risk Profile: The Path to Market
 
-- **Capital-intensive**: Requires massive funding ($100M+) with long timelines to profitability. Deep tech, space, therapeutics, infrastructure.
+Even when technology exists, resources are available, and regulations permit, the path from concept to customer can be straightforward or treacherous. Execution risk profile assesses the complexity of this journey:
 
-Capital intensity directly impacts execution feasibility because each funding round is a risk gate. The more capital required, the more gates must be passed, and the lower the cumulative probability of success.
+**Low execution risk:** Clear customer segments, established go-to-market models, straightforward operations. A new coffee shop in a busy area. A SaaS tool for a well-understood problem. A consulting practice serving familiar industries. The path is known; success depends on execution quality, not discovery.
 
-#### Talent Requirements
+**Moderate execution risk:** Uncertain customer segments, novel go-to-market requirements, or operational complexity. A marketplace requiring both supply and demand. A hardware product requiring manufacturing partnerships. A service business in a new geographic market. The path exists but has not been fully mapped.
 
-Some startups can be built by generalists; others require specialists:
+**High execution risk:** Ideas requiring ecosystem creation, behavior change, or multi-sided coordination. A social network (which is worthless without users). A platform business (requiring simultaneous supply and demand). A technology requiring adoption by slow-moving enterprises. These ideas face chicken-and-egg problems, long sales cycles, or the need to change habits.
 
-- **Generalist-friendly**: Web development, mobile apps, content creation. Large talent pools, proven training paths.
+**Extreme execution risk:** Ideas whose success depends on unpredictable events or network effects that may never materialize. A new cryptocurrency. A consumer hardware platform. A media property hoping to go viral. These ideas can succeed spectacularly, but the path is not plannable—it must be discovered through iteration and luck.
 
-- **Specialist-required**: Machine learning, security, hardware engineering. Smaller pools, competitive hiring.
+**Key evaluation signals:**
+- How clear is the target customer?
+- Is there an established sales or distribution channel?
+- Does success require changing user behavior?
+- Are there chicken-and-egg dynamics to overcome?
+- How long is the typical sales cycle in this domain?
+- Does value depend on network effects or ecosystem development?
 
-- **Rare-expert-dependent**: Novel chip design, drug discovery, quantum computing. Dozens to hundreds of qualified people globally.
+## The Challenge of Multimodal Inputs
 
-#### Time to Market
+The Execution Feasibility Ranker must evaluate ideas presented in diverse formats:
 
-Execution feasibility declines with time-to-market because:
-- More runway must be funded
-- More things can go wrong
-- Markets shift during development
-- Team cohesion degrades over long timelines
-- Competitors may emerge or pivot
+### Text Pitches
 
-A startup that can launch in 3 months has fundamentally different feasibility than one requiring 3 years of development.
+The most common format—a written description of the idea. Text pitches vary from single sentences ("Uber for dog walking") to elaborate business plans. The ranker must extract the core concept and assess feasibility regardless of presentation polish.
 
-#### Infrastructure and Partnerships
+### Image-Based Presentations
 
-Some ideas require more than internal resources:
-- Manufacturing partnerships for hardware
-- Regulatory relationships for fintech/healthtech
-- Distribution deals for consumer products
-- Platform access for certain software
+Some ideas are best conveyed visually—product mockups, architectural renderings, workflow diagrams. The ranker must interpret visual information and translate it into feasibility assessments. A sleek product rendering may mask manufacturing complexity; a simple sketch may represent a highly feasible concept.
 
-Each required external dependency adds execution risk.
+### Audio Pitches
 
-### Pillar III: Regulatory and Legal Complexity
+Spoken presentations, podcast-style explanations, or voice memos describing ideas. The ranker must process audio content, extracting the idea while filtering out delivery quality, accent, or presentation skill—these are orthogonal to feasibility.
 
-The regulatory dimension evaluates legal obstacles and compliance burdens. This often represents the most underestimated source of execution risk, particularly for founders without domain experience.
+### Video Pitches
 
-#### Regulatory Categories
+The richest format, combining visual demonstration with verbal explanation. Prototype demonstrations, pitch deck recordings, or product videos. Video provides the most information but also the most opportunity for polish to obscure feasibility challenges.
 
-- **Unregulated or lightly regulated**: Most software, content, many consumer products. Standard business formation, basic consumer protection, privacy basics.
+### Composite Pitches
 
-- **Industry-regulated**: Financial services, education, real estate. Specific licensing requirements, disclosure rules, operational constraints.
+Many ideas are presented through combinations—a video with supporting images, a text description with audio annotations, a pitch deck with embedded demos. The ranker must synthesize across modalities.
 
-- **Heavily regulated**: Healthcare, aviation, food production, pharmaceuticals. Extensive approval processes, ongoing compliance, significant liability.
+Critically, **presentation quality must not corrupt feasibility assessment.** A poorly recorded video of a highly feasible idea should score higher than a slickly produced pitch for an impossible concept. The ranker must see through production values to the underlying execution challenge.
 
-- **Prohibited or restricted**: Certain financial instruments, controlled substances, weapons technology. May be legally impossible in certain jurisdictions.
+## The Vector Output: Relative Ranking
 
-#### Jurisdictional Complexity
+The Execution Feasibility Ranker produces a vector of scores that sum to approximately 1, distributed across all input items. This design choice reflects several philosophical commitments:
 
-Ideas operating across jurisdictions face compounded regulatory burden. A fintech app serving U.S. customers from overseas must navigate:
-- SEC/FINRA if securities are involved
-- State-by-state money transmission laws
-- KYC/AML requirements
-- Data protection (CCPA, state laws)
-- Consumer protection regulations
+### Relative Rather Than Absolute
 
-Each jurisdiction multiplies compliance effort and risk.
+Feasibility is inherently comparative. Saying an idea has "0.7 feasibility" means little in isolation—compared to what? By forcing scores to sum to 1, the ranker provides relative rankings: "This idea is twice as feasible as that one" has clear meaning.
 
-#### Legal Defensibility
+### Forced Distribution
 
-Beyond regulation, some ideas face legal challenges:
-- Patent encumbrance (especially in software, biotech)
-- Trademark conflicts
-- Liability exposure (products that could cause harm)
-- Contractual constraints (if building on others' platforms)
+The summing-to-one constraint prevents grade inflation. If every idea receives a high score, the ranking provides no information. By distributing a fixed probability mass, the ranker must make discriminating judgments.
 
-#### Regulatory Trajectory
+### Portfolio Perspective
 
-A nuanced evaluation considers not just current regulation but trajectory:
-- Is the regulatory environment becoming clearer (good) or more uncertain (risky)?
-- Are there active enforcement actions in the space?
-- Are new regulations likely that could enable or disable the business model?
+The vector output mirrors how investors actually think. Given a portfolio of potential investments, how should attention and resources be allocated? The feasibility vector provides one input to this allocation decision.
 
-### Pillar IV: Execution Risk Profile
+## Weighting the Dimensions
 
-The final pillar evaluates the overall risk profile—the number, nature, and interdependence of things that could go wrong.
+The four pillars of feasibility do not contribute equally in all contexts. A deep-tech venture's feasibility is dominated by technical factors; a restaurant's feasibility is dominated by execution and regulatory factors. The ranker must implicitly weight dimensions based on the nature of each idea:
 
-#### Path Clarity
+- **For technology ventures:** Technical feasibility dominates. Can it be built?
+- **For service businesses:** Execution risk dominates. Can customers be acquired?
+- **For regulated industries:** Regulatory complexity dominates. Can approval be obtained?
+- **For capital-intensive ventures:** Resource requirements dominate. Can funding be secured?
 
-Some startup paths are well-mapped; others are explorations:
+The ranker must recognize the *limiting factor*—the dimension most likely to block execution—and weight it appropriately. An idea that scores well on three dimensions but fails on one is not feasible.
 
-- **Clear path**: The steps to success are known. Build product, acquire customers, optimize funnel, scale. Established playbooks exist. Examples: SaaS businesses, e-commerce, professional services.
+## Edge Cases and Philosophical Challenges
 
-- **Partially mapped**: The general direction is known, but significant unknowns exist. Which customer segment? What business model? How to achieve scale? Examples: Consumer social, novel marketplaces, emerging categories.
+### The Trivially Feasible
 
-- **Exploratory**: Success criteria themselves are unclear. The company is attempting something that may not be possible, with uncertain endpoints. Examples: Moonshots, research-oriented companies, category creators.
+Some ideas are so simple they are almost certainly executable: "I will start a lemonade stand." Should these score highest? In relative terms, yes—but the ranker must recognize that trivial feasibility often correlates with trivial value. The function assesses feasibility, not worth.
 
-#### Risk Interdependence
+### The Timeframe Problem
 
-Risks can be independent or correlated:
+Feasibility depends on timeframe. General AI is infeasible in 2024; it may be feasible in 2054. The ranker should assess feasibility on a startup-relevant timeframe—roughly 5-10 years. Ideas requiring longer horizons score lower even if they are "eventually" feasible.
 
-- **Independent risks**: Each challenge can be addressed separately. Failure in one area doesn't cascade to others. This is favorable—you can iterate component by component.
+### The Resource Assumption
 
-- **Correlated risks**: Challenges are entangled. Technical success requires regulatory approval which requires funding which requires technical progress. These dependencies create fragile execution paths.
+What resources should we assume are available? A well-funded team can attempt ideas impossible for a solo founder. The ranker should assume "reasonable startup resources"—a small team, modest seed capital, and access to standard infrastructure. Ideas requiring resources beyond this should score lower for their additional assembly challenge.
 
-#### Known vs. Unknown Risks
+### The Founder Problem
 
-The most dangerous risks are those we don't know we face:
+Feasibility depends on who is executing. The same idea might be feasible for an experienced operator and infeasible for a first-time founder. The ranker should assume a competent but not exceptional team—ideas requiring world-class talent should score lower for this dependency.
 
-- **Known knowns**: We understand the challenge and know how to address it. Standard engineering, sales, marketing.
+## Integration and Composition
 
-- **Known unknowns**: We understand we face a challenge but don't know the answer. Will users adopt? Will the technology scale? Can we achieve unit economics?
+The Execution Feasibility Ranker is designed to function as one component in larger decision systems. Feasibility should be combined with:
 
-- **Unknown unknowns**: Challenges we haven't identified. These dominate novel domains—deep tech, regulatory gray areas, unprecedented business models.
+- **Market size:** A feasible idea in a small market may be less attractive than a challenging idea in a large market.
+- **Competitive dynamics:** A feasible idea in a crowded market faces different challenges than one in a blue ocean.
+- **Strategic fit:** Feasibility for one team differs from feasibility for another based on existing capabilities.
+- **Timing:** An idea may be feasible but premature—or feasible but too late.
 
-#### Failure Mode Analysis
+The ranker provides the feasibility input; other functions provide other perspectives; portfolio decisions emerge from their synthesis.
 
-What happens when things go wrong?
+## Conclusion: The Humility of Practical Assessment
 
-- **Graceful degradation**: Failure in one dimension doesn't doom the company. Pivot options exist. Most software companies.
+The Execution Feasibility Ranker embodies a particular stance toward innovation: respect for constraints. It recognizes that ideas are cheap but execution is expensive, that vision is common but realization is rare, that physics, economics, and institutions do not bend to enthusiasm.
 
-- **Partial recovery**: Some failures can be recovered from; others are terminal. Hardware companies can often iterate on software but not core hardware mistakes.
+This is not cynicism but humility. The ranker does not say "don't try hard things"—it says "understand what makes things hard." By surfacing the specific challenges each idea faces, it enables better resource allocation, more realistic planning, and higher-quality decisions.
 
-- **Catastrophic failure modes**: Certain failures end the company entirely. Clinical trial failures, major regulatory actions, critical safety incidents.
+In the end, every startup is a bet against uncertainty. The Execution Feasibility Ranker does not eliminate uncertainty—it clarifies which bets face better odds. It is a tool for seeing clearly, a lens that reveals the gap between where we are and where we want to go.
 
-## Evaluation Philosophy and Scoring Approach
-
-### The Comparative Mindset
-
-Every evaluation must hold all alternatives in mind simultaneously. When assessing technical feasibility, we ask: "Among these specific alternatives, which requires the most and least technical risk?" This framing produces more reliable rankings than attempting absolute assessment.
-
-### Dimension Weighting
-
-The four pillars are not equally weighted in all contexts, but for general-purpose ranking, they deserve roughly equal consideration:
-
-- Technical Feasibility: ~25%
-- Resource Requirements: ~25%
-- Regulatory Complexity: ~25%
-- Execution Risk Profile: ~25%
-
-Within each pillar, subdimensions should be considered holistically rather than mechanically averaged.
-
-### Handling Multimodal Inputs
-
-Startup ideas may be presented as:
-
-- **Text pitches**: Evaluate based on linguistic content, claims, and implied scope.
-- **Visual pitches**: Slides, mockups, or images may convey information not present in text.
-- **Video pitches**: Delivery quality is irrelevant; extract the underlying idea.
-- **Composite pitches**: Combine all available modalities for fullest picture.
-
-The function must normalize across modalities—a polished video presentation of a low-feasibility idea should not score higher than a text pitch of a highly feasible one.
-
-### Calibration and Edge Cases
-
-#### Extreme Disparity
-
-When ideas span vast feasibility ranges (habit app vs. fusion reactor), the distribution should reflect this clearly—the high-feasibility option should dominate the probability mass.
-
-#### Similar Feasibility
-
-When ideas are roughly equally feasible, scores should cluster near equal distribution (1/n per item), with small differentials reflecting nuanced distinctions.
-
-#### Single-Item Edge Case
-
-With only one item, that item receives all probability mass (~1.0). The comparative frame degenerates to absolute assessment in the limit.
-
-#### Incomplete Information
-
-Many pitches underdescribe execution challenges. The function should evaluate based on what's stated and reasonable inferences, not best-case interpretations. Optimistic underspecification should be treated as a mild negative signal.
-
-## Use Cases and Applications
-
-### Investment Screening
-
-Investors reviewing deal flow can use feasibility ranking to triage opportunities. High-potential but low-feasibility ideas might go to a "moonshot" track; high-feasibility ideas might warrant faster diligence.
-
-### Founder Self-Assessment
-
-Founders considering multiple directions can reality-check their perception against model assessment. Identifying which idea has the clearest path to execution can inform resource allocation.
-
-### Accelerator Selection
-
-Programs with execution-focused theses (vs. breakthrough-focused) can use feasibility ranking as one input to cohort selection.
-
-### Portfolio Construction
-
-VCs constructing portfolios might explicitly balance feasibility profiles—some high-feasibility bets for consistent progress, some low-feasibility bets for asymmetric returns.
-
-### Competitive Analysis
-
-Companies evaluating competitive threats can assess which competitors are pursuing more or less feasible strategies.
-
-## Conclusion
-
-The Execution Feasibility Ranker operationalizes a fundamental question in entrepreneurship: **"How hard is this to actually do?"** By evaluating ideas across technical feasibility, resource requirements, regulatory complexity, and execution risk—always in comparative context—the function produces actionable rankings that inform real decisions.
-
-The function does not judge ideas as good or bad, worthy or unworthy. It merely illuminates the difficulty of the path ahead. A visionary founder may rationally choose a low-feasibility idea because the potential reward justifies the challenge. But they should make that choice with clear eyes, knowing what the execution road looks like.
-
-In a landscape littered with brilliant ideas that failed in execution, understanding feasibility is not just useful—it is essential. This function serves that understanding.
+And in that clarity lies the beginning of execution.

@@ -1,13 +1,13 @@
 {
   "type": "vector.function",
-  "description": "Ranks startup ideas by relative execution feasibility. Evaluates technical feasibility, resource requirements, regulatory complexity, and execution risk. Outputs a probability distribution (scores summing to ~1) where higher scores indicate more executable ideas.",
+  "description": "Rank startup ideas by execution feasibility, producing a probability distribution across all items. Evaluates technical feasibility, resource requirements, regulatory complexity, and execution risk to determine which ideas can realistically be built and brought to market. Output is a vector of scores (one per item) summing to approximately 1, with higher scores indicating greater execution feasibility.",
   "input_schema": {
     "type": "object",
     "description": "A set of startup ideas to compare for relative execution feasibility",
     "properties": {
       "items": {
         "type": "array",
-        "description": "Array of startup ideas to rank by execution feasibility. Each item can be a text pitch, image, video, audio, or a composite array combining multiple modalities. Minimum 2 items required for comparison.",
+        "description": "Array of startup ideas to rank by execution feasibility. Each item can be a text pitch, image, video, audio, or a composite array combining multiple modalities.",
         "minItems": 2,
         "items": {
           "anyOf": [
@@ -20,12 +20,12 @@
               "description": "A visual pitch (slide, mockup, diagram)"
             },
             {
-              "type": "video",
-              "description": "A video pitch"
-            },
-            {
               "type": "audio",
               "description": "An audio pitch"
+            },
+            {
+              "type": "video",
+              "description": "A video pitch"
             },
             {
               "type": "array",
@@ -40,10 +40,10 @@
                     "type": "image"
                   },
                   {
-                    "type": "video"
+                    "type": "audio"
                   },
                   {
-                    "type": "audio"
+                    "type": "video"
                   }
                 ]
               }
