@@ -1,6 +1,6 @@
 {
   "type": "vector.function",
-  "description": "Ranks startup ideas by relative execution feasibility, producing a probability distribution where higher values indicate more feasible paths to market. Evaluates technical feasibility (technology maturity, integration complexity, talent availability), resource requirements (capital intensity, time to market, team size), regulatory complexity (industry regulations, geographic variation, compliance costs), and execution risk profile (go-to-market clarity, market validation, competitive dynamics). Accepts ideas as text, image, audio, video, or composite arrays combining multiple formats.",
+  "description": "Ranks startup ideas by relative execution feasibility, producing a probability distribution. Evaluates technical feasibility, resource requirements, regulatory complexity, and execution risk. Accepts text, image, audio, video, or composite inputs.",
   "input_schema": {
     "type": "object",
     "properties": {
